@@ -1,0 +1,63 @@
+<html>
+    <head>
+        <style>
+            #map { height: 100%; width: 100%;}
+        </style>
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+        <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+        integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+        crossorigin=></script>
+    </head>
+    <body>
+        <button id="copy-btn">Copy Route</button>
+        <div id="cmd"></div>
+        <div id="map"></div>
+    </body>
+    <script>
+        const map = L.map('map').setView([51.186317, 10.587657], 6.3);
+        L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href=\"https://www.openstreetmap.org/copyright\">OpenStreetMap</a>',
+            maxZoom: 18
+        }).addTo(map);
+
+        const greenIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
+        const redIcon = new L.Icon({
+            iconUrl: 'https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png',
+            shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+            iconSize: [25, 41],
+            iconAnchor: [12, 41],
+            popupAnchor: [1, -34],
+            shadowSize: [41, 41]
+        });
+
+        const from = new L.marker([52.516283, 13.402292],{
+            draggable: true,
+            icon: greenIcon
+        }).addTo(map);
+
+        const to = new L.marker([51.364870, 7.588979],{
+            draggable: true,
+            icon: redIcon
+        }).addTo(map);
+
+
+        document.getElementById("copy-btn").addEventListener("click", function() {
+            const fromLatLongs = from.getLatLng();
+            const toLatLongs = to.getLatLng();
+            const command = "route " + fromLatLongs.lat + " " + fromLatLongs.lng + " " + toLatLongs.lat + " " + toLatLongs.lng;
+            document.getElementById('cmd').innerHTML = command
+            navigator.clipboard.writeText(command);
+        });     
+
+    </script>
+</html>
