@@ -54,7 +54,7 @@
         document.getElementById("copy-btn").addEventListener("click", function() {
             const fromLatLongs = from.getLatLng();
             const toLatLongs = to.getLatLng();
-            const command = "route " + fromLatLongs.lat + " " + fromLatLongs.lng + " " + toLatLongs.lat + " " + toLatLongs.lng;
+            const command = "route_coordinates " + fromLatLongs.lat + " " + fromLatLongs.lng + " " + toLatLongs.lat + " " + toLatLongs.lng;
             document.getElementById('cmd').innerHTML = command
             navigator.clipboard.writeText(command);
         });     
